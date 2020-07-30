@@ -1,0 +1,14 @@
+{
+    "_id": {
+        "$oid": "5f0d7b6c19545d63fff5bcf6"
+    },
+    "country": "DK",
+    "city": "Copenhagen",
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            12.56553,
+            55.67594
+        ]
+    }
+}

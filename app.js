@@ -4,15 +4,24 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
+var hbs = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
+var mapRouter = require('./routes/map');
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.engine('hbs', hbs({
+  extname: 'hbs',
+  defaultLayout: 'index',
+  layoutsDir: __dirname + '/views/layouts',
+  partialsDir: __dirname + '/views/partials'
+}))
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -20,9 +29,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist')); // include bootstrap styles
 
 app.use('/', indexRouter);
+app.use('/map', mapRouter);
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

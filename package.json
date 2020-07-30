@@ -6,12 +6,20 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bootstrap": "^3.4.1",
     "cookie-parser": "~1.4.4",
+    "country-list": "2.2.0",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "hbs": "~4.0.4",
+    "env-var": "^6.2.0",
+    "express": "~4.17.0",
+    "express-basic-auth": "^1.2.0",
+    "express-handlebars": "^4.0.0",
+    "hbs": "~4.1.1",
     "http-errors": "~1.6.3",
-    "less-middleware": "~2.2.1",
+    "jquery": "^3.5.0",
+    "less-middleware": "3.1.0",
+    "mongodb": "^3.5.9",
+    "mongojs": "^3.1.0",
     "morgan": "~1.9.1"
   }
 }

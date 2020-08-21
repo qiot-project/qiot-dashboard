@@ -34,8 +34,6 @@ function initMap(){
 
 //load data locations
 function getStations(){
-
-
   $.ajax({
     url: '/admin/stations'
   }).done(function(json){
@@ -56,7 +54,23 @@ function getStations(){
       
     }
   })
-  
+}
+
+function getLastWeek(stationId, cb){
+  $.ajax({
+    url: '/admin/lastweek/' + stationId
+  }).done(function(data){
+    console.log('station last week',data);
+    var chartArray = [];
+    for(var i=0; i<data.length;i++){
+      // build data array for infoWindow chart
+      chartArray[i] = [i+1, data[i].avg];
+    }
+    //TODO: use async
+    setTimeout(function(){
+      return cb(null,chartArray);
+    },0)
+  })
 }
 
 function showInfoWindow(){
@@ -70,9 +84,15 @@ function showInfoWindow(){
     infowindow.setContent(content);
     $('#chart_div').html("Loading....");
     infowindow.open(map, this);
-    setTimeout(function(){
+    
+    // show last 7 days data
+    getLastWeek(this.stationId, function(err,data){
       $('#stationName').html(self.label);
-      
-      plotChart();
-    },5000);
+      if(data.length === 0){
+        $('#chart_div').html("No data available for this station");
+      } else {
+        console.log(data);
+        plotChart(data);
+      }
+    })
 }

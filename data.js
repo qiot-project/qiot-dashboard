@@ -6,11 +6,11 @@ db.on('connect', function () {
 })
 
 const stationsCollection = db.collection(config.stationsCollection);
-const pollutionCollection = db.collection(config.pollutionCollection);
+const historicCollection = db.collection(config.historicCollection);
+const dailyCollection = db.collection(config.dailyCollection);
 
 _stations = [];
 
-// Get Stations
 module.exports = {
   /*
    example
@@ -39,14 +39,9 @@ module.exports = {
     db.getCollectionNames(cb);
   },
   getPollution: function(cb){
-    db[pollutionCollection].find({stationId:9}).limit(2,cb);
+    db[historicCollection].find({stationId:9}).limit(2,cb);
+  },
+  getLastWeek: function(stationId,cb){
+    db[dailyCollection].find({"_id.stationId":stationId},cb);
   }
 }
-
-
-
-// Get Pollution
-
-
-
-// Get Gas

@@ -5,7 +5,8 @@ const env = require('env-var').from({
   MONGO_URL: 'mongodb://localhost:27017/qiot',
   DB_NAME: 'qiot',
   STATIONS_COL: 'measurementstation',
-  POLLUTION_COL: 'pollution',
+  HISTORIC_COL: 'measurementhistory',
+  DAY_COL: 'measurementsbyday',
 
   // Include environment values. These will take precedence over
   // the defaults defined above if defined
@@ -17,5 +18,6 @@ module.exports = {
   mongoURL: env.get('MONGO_URL').asString(),
   dbName: env.get('DB_NAME').asString(),
   stationsCollection: env.get('STATIONS_COL').asString(),
-  pollutionCollection: env.get('POLLUTION_COL').asString()
+  historicCollection: env.get('HISTORIC_COL').asString(),
+  dailyCollection: env.get('DAY_COL').asString()
 }

@@ -16,14 +16,16 @@ $(document).ready(function(){
     })
 
     getStations();
-
-    // getCenters();
-
 });
+
 var map = null;
 var infowindow = null;
 function initMap(){
     $(document).ready(function(){
+      // return if not on map page
+      if(document.location.pathname !== "/map"){
+        return;
+      }
         var london = {lat: 48.135, lng: 11.582};
         map = new google.maps.Map(
             document.getElementById('map'), {zoom: 3, center: london});
@@ -40,17 +42,26 @@ function getStations(){
     console.log('stations',json);
     var stations = json;
     for(var i=0; i<stations.length;i++){
-      // plot coords of station
-      var coords = {lng: stations[i].location.coordinates[0], lat: stations[i].location.coordinates[1]};
-      var marker = new google.maps.Marker({
-        position: coords,
-        map: map,
-        stationId: stations[i]._id,
-        label: stations[i].name
-      })
 
-      // create infowindow for station
-      marker.addListener("click", showInfoWindow);
+      if(document.location.pathname === "/map"){
+        // plot coords of station
+        var coords = {lng: stations[i].location.coordinates[0], lat: stations[i].location.coordinates[1]};
+        var marker = new google.maps.Marker({
+          position: coords,
+          map: map,
+          stationId: stations[i]._id,
+          label: stations[i].name
+        })
+
+        // create infowindow for station
+        marker.addListener("click", showInfoWindow);
+      } else if(document.location.pathname === "/charts"){
+        
+        var sid = stations[i]._id;
+        var htmlStr = "<div class='item' onclick='viewCharts("+sid+")' data-id='"+sid+"'>"+ stations[i].name + "</div>";
+        $('#stationList').append(htmlStr);
+      }
+      
       
     }
   })
@@ -64,7 +75,7 @@ function getLastWeek(stationId, cb){
     var chartArray = [];
     for(var i=0; i<data.length;i++){
       // build data array for infoWindow chart
-      chartArray[i] = [i+1, data[i].avg];
+      chartArray[i] = [i, data[i].avg];
     }
     //TODO: use async
     setTimeout(function(){
@@ -92,7 +103,48 @@ function showInfoWindow(){
         $('#chart_div').html("No data available for this station");
       } else {
         console.log(data);
-        plotChart(data);
+        plotChart(data, 'chart_div');
       }
     })
+}
+
+
+function viewCharts(stationId){
+  $('#stationList .item').removeClass('active');
+  $('.item[data-id='+stationId+']').addClass('active');
+  chartData = {};
+  //show chart divs
+  
+  //fetchdata
+  $.when(
+    $.get('/admin/lastweek/'+stationId, function(data){
+      var chartArray = [];
+      for(var i=0; i<data.length;i++){
+        chartArray[i] = [i, data[i].avg];
+      }
+      chartData.lastweek = chartArray;
+    }),
+
+    $.get('/admin/lastmonth/'+stationId, function(data){
+      var chartArray = [];
+      for(var i=0; i<data.length;i++){
+        chartArray[i] = [i, data[i].avg];
+      }
+      chartData.lastmonth = chartArray;
+    }),
+
+    $.get('/admin/lastyear/'+stationId, function(data){
+      var chartArray = [];
+      for(var i=0; i<data.length;i++){
+        chartArray[i] = [i, data[i].avg];
+      }
+      chartData.lastyear = chartArray;
+    })
+
+  ).then(function(){
+    console.log('lastweek', chartData);
+    plotChart(chartData.lastweek,'lastweekchart');
+    plotChart(chartData.lastmonth,'lastmonthchart');
+    plotChart(chartData.lastyear,'lastyearchart');
+  })
 }

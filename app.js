@@ -8,6 +8,7 @@ var hbs = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
 var mapRouter = require('./routes/map');
+var chartRouter = require('./routes/charts');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 
@@ -33,6 +34,7 @@ app.use(express.static(__dirname + '/node_modules/bootstrap/dist')); // include 
 
 app.use('/', indexRouter);
 app.use('/map', mapRouter);
+app.use('/charts', chartRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 

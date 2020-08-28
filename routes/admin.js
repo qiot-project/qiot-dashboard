@@ -36,6 +36,38 @@ router.get('/lastweek/:stationId', function(req, res){
   })
 })
 
+router.get('/lastmonth/:stationId', function(req, res){
+  var id = req.params.stationId;
+
+  if(isNaN(id)){
+    return res.err("Please use a number for stationId");
+  }
+
+  id = parseInt(id);
+  data.getLastMonth(id, function(err,data){
+    if(err){
+      return res.json(err);
+    }
+    res.json(data);
+  })
+})
+
+router.get('/lastyear/:stationId', function(req, res){
+  var id = req.params.stationId;
+
+  if(isNaN(id)){
+    return res.err("Please use a number for stationId");
+  }
+
+  id = parseInt(id);
+  data.getLastYear(id, function(err,data){
+    if(err){
+      return res.json(err);
+    }
+    res.json(data);
+  })
+})
+
 router.get('/pollution', function (req, res, next) {
   data.getPollution(function(err,pollution){
     if(err){

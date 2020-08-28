@@ -1,7 +1,7 @@
 google.charts.load('current', {packages: ['corechart', 'line']});
 // google.charts.setOnLoadCallback(plotChart);
 
-function plotChart(chartpoints) {
+function plotChart(chartpoints,chartDiv) {
       var data = new google.visualization.DataTable();
       data.addColumn('number', 'Day');
       data.addColumn('number', 'PM10');
@@ -38,6 +38,6 @@ function plotChart(chartpoints) {
         }
       };
 
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.LineChart(document.getElementById(chartDiv));
       chart.draw(data, options);
     }

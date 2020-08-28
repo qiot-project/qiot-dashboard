@@ -38,3 +38,55 @@ a {
     min-height: 200px;
   }
 }
+
+
+#stationList {
+  display: inline-block;
+  width: 40%;
+  border: 1px solid black;
+  margin-right: 20px;
+  vertical-align: top;
+
+  .item {
+    &:hover {
+      background-color: #00B7FF;
+      color: white;
+      cursor: pointer;
+    }
+
+    &.active {
+      background-color: #04435c;
+      color: white;
+      cursor: pointer;
+    }
+
+    height: 50px;
+    padding: 10px;
+    border-bottom: 1px dotted #cdcdcd;
+
+  }
+}
+
+#chartView {
+  display: inline-block;
+  width: 50%;
+
+  .chartBox {
+    border: 1px solid #676767;
+    border-radius: 10px;
+    // background-color: #cdcdcd;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: 260px;
+
+    h4 {
+      border-bottom: 1px solid #676767;
+      background-color: #cdcdcd;
+      padding: 10px;
+      margin: -10px;
+      margin-bottom: 10px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+  }
+}

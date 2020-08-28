@@ -1,8 +1,8 @@
 const mongojs = require('mongojs')
 const config = require('./config.js');
-const db = mongojs(config.dbName);
+const db = mongojs(config.mongoURL);
 db.on('connect', function () {
-  console.log('database connected')
+  console.log('database connected:', config.mongoURL);
 })
 
 const stationsCollection = db.collection(config.stationsCollection);
@@ -42,6 +42,14 @@ module.exports = {
     db[historicCollection].find({stationId:9}).limit(2,cb);
   },
   getLastWeek: function(stationId,cb){
+    db[dailyCollection].find({"_id.stationId":stationId},cb);
+  },
+  getLastMonth: function(stationId,cb){
+    //TODO - call correct collection
+    db[dailyCollection].find({"_id.stationId":stationId},cb);
+  },
+  getLastYear: function(stationId,cb){
+    //TODO - call correct collection
     db[dailyCollection].find({"_id.stationId":stationId},cb);
   }
 }

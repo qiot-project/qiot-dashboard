@@ -1,7 +1,7 @@
 const mongojs = require('mongojs')
 const config = require('./config.js');
 
-var connString = config.mongoCredentials + '@' + config.mongoURL;
+var connString = 'mongodb://' + config.mongoCredentials + '@' + config.mongoURL;
 const db = mongojs(connString);
 
 db.on('connect', function () {

@@ -1,6 +1,8 @@
 const mongojs = require('mongojs')
 const config = require('./config.js');
-const db = mongojs(config.mongoURL);
+
+var connString = config.mongoCredentials + '@' + config.mongoURL;
+const db = mongojs(connString);
 db.on('connect', function () {
   console.log('database connected:', config.mongoURL);
 })

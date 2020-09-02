@@ -3,8 +3,13 @@ const config = require('./config.js');
 
 var connString = config.mongoCredentials + '@' + config.mongoURL;
 const db = mongojs(connString);
+
 db.on('connect', function () {
-  console.log('database connected:', config.mongoURL);
+  console.log('database connected:', connString);
+})
+
+db.on('error', function (err) {
+  console.error('database error', err);
 })
 
 const stationsCollection = db.collection(config.stationsCollection);

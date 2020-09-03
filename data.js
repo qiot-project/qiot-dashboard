@@ -14,7 +14,9 @@ db.on('error', function (err) {
 
 const stationsCollection = db.collection(config.stationsCollection);
 const historicCollection = db.collection(config.historicCollection);
+const monthlyCollection = db.collection(config.monthlyCollection);
 const dailyCollection = db.collection(config.dailyCollection);
+const hourlyCollection = db.collection(config.hourlyCollection);
 
 _stations = [];
 
@@ -49,14 +51,12 @@ module.exports = {
     db[historicCollection].find({stationId:9}).limit(2,cb);
   },
   getLastWeek: function(stationId,cb){
-    db[dailyCollection].find({"_id.stationId":stationId},cb);
+    db[hourlyCollection].find({"_id.stationId":stationId},cb);
   },
   getLastMonth: function(stationId,cb){
-    //TODO - call correct collection
     db[dailyCollection].find({"_id.stationId":stationId},cb);
   },
   getLastYear: function(stationId,cb){
-    //TODO - call correct collection
-    db[dailyCollection].find({"_id.stationId":stationId},cb);
+    db[monthlyCollection].find({"_id.stationId":stationId},cb);
   }
 }

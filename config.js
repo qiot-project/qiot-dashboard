@@ -7,7 +7,10 @@ const env = require('env-var').from({
   DB_NAME: 'qiot',
   STATIONS_COL: 'measurementstation',
   HISTORIC_COL: 'measurementhistory',
-  DAY_COL: 'measurementsbyday',
+  MONTH_COL: 'measurementbymonth',
+  DAY_COL: 'measurementbyday',
+  HOUR_COL: 'measurementbyhour',
+  MINUTE_COL: 'measurementbyminute',
 
   // Include environment values. These will take precedence over
   // the defaults defined above if defined
@@ -21,5 +24,7 @@ module.exports = {
   dbName: env.get('DB_NAME').asString(),
   stationsCollection: env.get('STATIONS_COL').asString(),
   historicCollection: env.get('HISTORIC_COL').asString(),
-  dailyCollection: env.get('DAY_COL').asString()
+  monthlyCollection: env.get('MONTH_COL').asString(),
+  dailyCollection: env.get('DAY_COL').asString(),
+  hourlyCollection: env.get('HOUR_COL').asString()
 }

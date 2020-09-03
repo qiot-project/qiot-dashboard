@@ -79,14 +79,26 @@ a {
     margin-bottom: 10px;
     height: 260px;
 
+    &.collapsed {
+      height: 40px;
+      overflow: hidden;
+      transition: height 0.25s ease-in;
+    }
+
     h4 {
       border-bottom: 1px solid #676767;
-      background-color: #cdcdcd;
+      background-color: #04435c;
+      color: white;
       padding: 10px;
       margin: -10px;
       margin-bottom: 10px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
+      cursor: pointer;
+    }
+
+    .chart-area {
+      height: 200px;
     }
   }
 }

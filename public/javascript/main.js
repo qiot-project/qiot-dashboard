@@ -12,11 +12,20 @@ $(document).ready(function(){
         }).done(function(json){
             console.log('Got Response',json);
         })
-
     })
+    $('.chartBox h4').on('click',function(e){
+      $('.chartBox').addClass('collapsed');
+      $(e.target).parent().toggleClass('collapsed');
+    })
+
 
     getStations();
 });
+
+function resetMap(){
+  map.setZoom(3);
+  map.setCenter({lat: 48.135, lng: 11.582});
+}
 
 var map = null;
 var infowindow = null;
@@ -41,6 +50,8 @@ function getStations(){
   }).done(function(json){
     console.log('stations',json);
     var stations = json;
+
+    var markers = {};
     for(var i=0; i<stations.length;i++){
 
       if(document.location.pathname === "/map"){
@@ -55,6 +66,7 @@ function getStations(){
 
         // create infowindow for station
         marker.addListener("click", showInfoWindow);
+        markers[i] = marker;
       } else if(document.location.pathname === "/charts"){
         
         var sid = stations[i]._id;
@@ -64,6 +76,11 @@ function getStations(){
       
       
     }
+
+    // cluster map markers
+    var markerCluster = new MarkerClusterer(map, markers,
+      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
   })
 }
 
@@ -146,5 +163,13 @@ function viewCharts(stationId){
     plotChart(chartData.lastweek,'lastweekchart');
     plotChart(chartData.lastmonth,'lastmonthchart');
     plotChart(chartData.lastyear,'lastyearchart');
+    $('.chartBox').addClass('collapsed');
+    $('#lastWeek.chartBox').removeClass('collapsed');
   })
+}
+
+function getCustomChart(){
+  var stationId = $('.item.active').attr('data-id');
+  
+  //TODO: use custom values to request data
 }

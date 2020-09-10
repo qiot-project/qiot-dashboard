@@ -62,6 +62,7 @@ function getStations(){
           map: map,
           stationId: stations[i]._id,
           label: stations[i].name
+          // icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
         })
 
         // create infowindow for station

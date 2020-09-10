@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var countries = require('country-list').getData();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('charts', { title: 'Charts', locations: countries});
+  res.render('charts', { title: 'Charts'});
 });
 
 router.get('/:location',function(req,res){

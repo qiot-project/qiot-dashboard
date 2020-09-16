@@ -1,2 +1,30 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>QIOT Hackfest Dashboard</h1>
+<p>Welcome to the data dashboard for the Quarkus IOT hackfest event.<br>
+There are a number of ways to view the data of the dashbaord:
+</p>
+
+<h3>Map</h3>
+<p>The Map page renders all of the registered Measurement Stations on a Google Map.<br>
+This allows you to quickly visualise which stations are in your country, region or locale.<br>
+Clicking on a station on the Map will display the last week (by hour) worth of PM 10 data (avg).
+</p>
+
+<h3>Charts</h3>
+<p>The Charts page shows a list view of all available measurement stations.<br>
+Clicking a station will show you the following graphs:
+<ul>
+  <li>Last Week by Hour</li>
+  <li>Last Month by Day</li>
+  <li>Last Year by Month</li>
+  <li>Custom</li>
+</ul>
+Custom (in development) will allow you to customise the time block and measurement type you wish to display<br>
+on the chart.
+</p>
+
+<h3>Data</h3>
+<p>The Data page will show you the APIs you can call<br>
+to fetch data about the available measurement stations.
+This makes it possible to build your own dashboard, or validate the data you have
+already submitted to the datahub.
+</p>

@@ -1,7 +1,13 @@
 
 console.log('hello');
-$(document).ready(function(){
+$(function(){
     console.log('Ready...');
+    
+    // set active navigation tab
+    $('.nav li').removeClass('active');
+    var loc = document.location.pathname;
+    $('a[href="'+loc+'"]').parent().addClass('active');
+
 
     //bind functions
     $('#location_select').on('change',function(e){
@@ -30,7 +36,7 @@ function resetMap(){
 var map = null;
 var infowindow = null;
 function initMap(){
-    $(document).ready(function(){
+    $(function(){
       // return if not on map page
       if(document.location.pathname !== "/map"){
         return;

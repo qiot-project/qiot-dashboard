@@ -11,6 +11,7 @@ var mapRouter = require('./routes/map');
 var chartRouter = require('./routes/charts');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
+var dataRouter = require('./routes/data');
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/map', mapRouter);
 app.use('/charts', chartRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
+app.use('/data', dataRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

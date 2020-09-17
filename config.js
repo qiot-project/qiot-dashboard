@@ -11,6 +11,7 @@ const env = require('env-var').from({
   DAY_COL: 'measurementbyday',
   HOUR_COL: 'measurementbyhour',
   MINUTE_COL: 'measurementbyminute',
+  DB_SERVICE: 'http://qiot-query-qiot.apps.cluster-emeaiot-d864.emeaiot-d864.example.opentlc.com/v1/snapshot/id/',
 
   // Include environment values. These will take precedence over
   // the defaults defined above if defined
@@ -26,5 +27,6 @@ module.exports = {
   historicCollection: env.get('HISTORIC_COL').asString(),
   monthlyCollection: env.get('MONTH_COL').asString(),
   dailyCollection: env.get('DAY_COL').asString(),
-  hourlyCollection: env.get('HOUR_COL').asString()
+  hourlyCollection: env.get('HOUR_COL').asString(),
+  dbService: env.get('DB_SERVICE').asString()
 }

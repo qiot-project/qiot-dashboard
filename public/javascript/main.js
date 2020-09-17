@@ -108,6 +108,24 @@ function getLastWeek(stationId, cb){
   })
 }
 
+function getLastDay(stationId, cb){
+  $.ajax({
+    url: '/admin/lastday/' + stationId
+  }).done(function(data){
+    console.log('station last day',data);
+    var pm10 = data.pm10.lastDayByHour || []
+    var chartArray = [];
+    for(var i=0; i<pm10.length;i++){
+      // build data array for infoWindow chart
+      chartArray[i] = [i, pm10[i].avg];
+    }
+    //TODO: use async
+    setTimeout(function(){
+      return cb(null,chartArray);
+    },0)
+  })
+}
+
 function showInfoWindow(){
     var self = this;
     infowindow.setContent('');
@@ -121,7 +139,7 @@ function showInfoWindow(){
     infowindow.open(map, this);
     
     // show last 7 days data
-    getLastWeek(this.stationId, function(err,data){
+    getLastDay(this.stationId, function(err,data){
       $('#stationName').html(self.label);
       if(data.length === 0){
         $('#chart_div').html("No data available for this station");
@@ -141,37 +159,41 @@ function viewCharts(stationId){
   
   //fetchdata
   $.when(
-    $.get('/admin/lastweek/'+stationId, function(data){
+    $.get('/admin/lastday/'+stationId, function(data){
+      
+      // Last Day
+      var lastday = data.pm10.lastDayByHour || []
       var chartArray = [];
-      for(var i=0; i<data.length;i++){
-        chartArray[i] = [i, data[i].avg];
+      for(var i=0; i<lastday.length;i++){
+        chartArray[i] = [i, lastday[i].avg];
       }
-      chartData.lastweek = chartArray;
-    }),
+      chartData.lastday = chartArray;
 
-    $.get('/admin/lastmonth/'+stationId, function(data){
+      // Last Month
+      var lastmonth = data.pm10.lastMonthByDay;
       var chartArray = [];
-      for(var i=0; i<data.length;i++){
-        chartArray[i] = [i, data[i].avg];
+      for(var i=0; i<lastmonth.length;i++){
+        chartArray[i] = [i, lastmonth[i].avg];
       }
       chartData.lastmonth = chartArray;
-    }),
 
-    $.get('/admin/lastyear/'+stationId, function(data){
+      // Last Year
+      var lastyear = data.pm10.allMonths;
       var chartArray = [];
-      for(var i=0; i<data.length;i++){
-        chartArray[i] = [i, data[i].avg];
+      for(var i=0; i<lastyear.length;i++){
+        chartArray[i] = [i, lastyear[i].avg];
       }
       chartData.lastyear = chartArray;
+
     })
 
   ).then(function(){
-    console.log('lastweek', chartData);
-    plotChart(chartData.lastweek,'lastweekchart');
+    console.log('lastday', chartData);
+    plotChart(chartData.lastday,'lastdaychart');
     plotChart(chartData.lastmonth,'lastmonthchart');
     plotChart(chartData.lastyear,'lastyearchart');
     $('.chartBox').addClass('collapsed');
-    $('#lastWeek.chartBox').removeClass('collapsed');
+    $('#lastDay.chartBox').removeClass('collapsed');
   })
 }
 

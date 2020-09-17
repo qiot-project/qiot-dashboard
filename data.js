@@ -1,4 +1,5 @@
-const mongojs = require('mongojs')
+const mongojs = require('mongojs');
+const fetch = require('node-fetch');
 const config = require('./config.js');
 
 var connString = config.mongoCredentials + '@' + config.mongoURL;
@@ -11,6 +12,8 @@ db.on('connect', function () {
 db.on('error', function (err) {
   console.error('database error', err);
 })
+
+var dbService = config.dbService;
 
 const stationsCollection = db.collection(config.stationsCollection);
 const historicCollection = db.collection(config.historicCollection);
@@ -53,8 +56,19 @@ module.exports = {
   getLastWeek: function(stationId,cb){
     db[hourlyCollection].find({"_id.stationId":stationId},cb);
   },
+  getLastDay: function(stationId,cb){
+    var url = dbService+stationId;
+    console.log(url);
+    fetch(url)
+      .then(res => res.json())
+      .then(json => cb(null,json));
+  },
   getLastMonth: function(stationId,cb){
-    db[dailyCollection].find({"_id.stationId":stationId},cb);
+    // db[dailyCollection].find({"_id.stationId":stationId},cb);
+    var url = dbService+stationId;
+    fetch(url)
+      .then(res => res.json())
+      .then(json => cb(null,json));
   },
   getLastYear: function(stationId,cb){
     db[monthlyCollection].find({"_id.stationId":stationId},cb);

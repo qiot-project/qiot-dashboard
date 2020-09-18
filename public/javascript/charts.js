@@ -3,11 +3,12 @@ google.charts.load('current', {packages: ['corechart', 'line']});
 
 function plotChart(chartpoints,chartDiv) {
       var data = new google.visualization.DataTable();
-      data.addColumn('number', 'Day');
+      data.addColumn('datetime', 'Day');
       data.addColumn('number', 'PM10');
       // data.addColumn('number', 'Air');
       // data.addColumn('number', 'Humidity');
 
+      // chartpoints.prepend(['Time','PM10']);
       data.addRows(chartpoints);
       // data.addRows([
       //   [0, 0, 0],    [1, 10, 5],   [2, 23, 15],  [3, 17, 9],   [4, 18, 10],  [5, 9, 5],
@@ -26,7 +27,10 @@ function plotChart(chartpoints,chartDiv) {
 
       var options = {
         title: 'Air Quality',
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},
+        axes: {
+          x :{0: {side: 'bottom'}}
+        },
         hAxis: {
           title: 'Time'
         },

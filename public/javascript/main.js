@@ -117,7 +117,7 @@ function getLastDay(stationId, cb){
     var chartArray = [];
     for(var i=0; i<pm10.length;i++){
       // build data array for infoWindow chart
-      chartArray[i] = [i, pm10[i].avg];
+      chartArray[i] = [new Date(pm10[i].time), pm10[i].avg];
     }
     //TODO: use async
     setTimeout(function(){
@@ -165,7 +165,7 @@ function viewCharts(stationId){
       var lastday = data.pm10.lastDayByHour || []
       var chartArray = [];
       for(var i=0; i<lastday.length;i++){
-        chartArray[i] = [i, lastday[i].avg];
+        chartArray[i] = [new Date(lastday[i].time), lastday[i].avg];
       }
       chartData.lastday = chartArray;
 
@@ -173,7 +173,7 @@ function viewCharts(stationId){
       var lastmonth = data.pm10.lastMonthByDay;
       var chartArray = [];
       for(var i=0; i<lastmonth.length;i++){
-        chartArray[i] = [i, lastmonth[i].avg];
+        chartArray[i] = [new Date(lastmonth[i].time), lastmonth[i].avg];
       }
       chartData.lastmonth = chartArray;
 
@@ -181,14 +181,14 @@ function viewCharts(stationId){
       var lastyear = data.pm10.allMonths;
       var chartArray = [];
       for(var i=0; i<lastyear.length;i++){
-        chartArray[i] = [i, lastyear[i].avg];
+        chartArray[i] = [new Date(lastyear[i].time), lastyear[i].avg];
       }
       chartData.lastyear = chartArray;
 
     })
 
   ).then(function(){
-    console.log('lastday', chartData);
+    console.log('chartData', chartData);
     plotChart(chartData.lastday,'lastdaychart');
     plotChart(chartData.lastmonth,'lastmonthchart');
     plotChart(chartData.lastyear,'lastyearchart');

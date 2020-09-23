@@ -28,6 +28,7 @@ function plotChart(chartpoints,chartDiv) {
       var options = {
         title: 'Air Quality',
         legend: {position: 'none'},
+        pointSize: 10,
         axes: {
           x :{0: {side: 'bottom'}}
         },

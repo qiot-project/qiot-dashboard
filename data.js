@@ -42,6 +42,7 @@ module.exports = {
     }]
   */
   getStations: function (cb) {
+    // db[stationsCollection].find({active: true},function(err,data){
     db[stationsCollection].find(function(err,data){
       _stations = data; // set stations in memory
       cb(err,data);

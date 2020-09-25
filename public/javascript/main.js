@@ -77,7 +77,8 @@ function getStations(){
       } else if(document.location.pathname === "/charts"){
         
         var sid = stations[i]._id;
-        var htmlStr = "<div class='item' onclick='viewCharts("+sid+")' data-id='"+sid+"'>"+ stations[i].name + "</div>";
+        var active = (stations[i].active ? '' : 'not-active');
+        var htmlStr = "<div class='item "+active+"' onclick='viewCharts("+sid+")' data-id='"+sid+"'>stationid:"+sid+" - " + stations[i].name + "</div>";
         $('#stationList').append(htmlStr);
       }
       

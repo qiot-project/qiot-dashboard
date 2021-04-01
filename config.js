@@ -12,6 +12,7 @@ const env = require('env-var').from({
   HOUR_COL: 'measurementbyhour',
   MINUTE_COL: 'measurementbyminute',
   DB_SERVICE: 'http://qiot-query-qiot.apps.cluster-emeaiot-d864.emeaiot-d864.example.opentlc.com/v1/snapshot/id/',
+  INFLUX_URL: 'http://timeseries-service-influxdb2-qiotcovid19v2.apps.cluster-fcd8.fcd8.example.opentlc.com',
 
   // Include environment values. These will take precedence over
   // the defaults defined above if defined
@@ -28,5 +29,6 @@ module.exports = {
   monthlyCollection: env.get('MONTH_COL').asString(),
   dailyCollection: env.get('DAY_COL').asString(),
   hourlyCollection: env.get('HOUR_COL').asString(),
-  dbService: env.get('DB_SERVICE').asString()
+  dbService: env.get('DB_SERVICE').asString(),
+  influxDB: env.get('INFLUX_URL').asString()
 }

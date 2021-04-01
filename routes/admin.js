@@ -23,9 +23,7 @@ router.get('/stations', function (req, res, next) {
 router.get('/lastDay/:stationId', function (req, res, next) {
   var id = req.params.stationId;
 
-  if(isNaN(id)){
-    return res.err("Please use a number for stationId");
-  }
+
   data.getLastDay(id, function(err,data){
     if(err){
       return res.json(err);
@@ -50,15 +48,20 @@ router.get('/lastweek/:stationId', function(req, res){
   })
 })
 
-router.get('/lastmonth/:stationId', function(req, res){
+router.get('/pm2_5/:stationId', function(req, res){
   var id = req.params.stationId;
 
-  if(isNaN(id)){
-    return res.err("Please use a number for stationId");
-  }
+  data.getPM2_5(id, function(err,data){
+    if(err){
+      return res.json(err);
+    }
+    res.json(data);
+  })
+})
+router.get('/pm10/:stationId', function(req, res){
+  var id = req.params.stationId;
 
-  id = parseInt(id);
-  data.getLastMonth(id, function(err,data){
+  data.getPM2_5(id, function(err,data){
     if(err){
       return res.json(err);
     }
@@ -66,30 +69,6 @@ router.get('/lastmonth/:stationId', function(req, res){
   })
 })
 
-router.get('/lastyear/:stationId', function(req, res){
-  var id = req.params.stationId;
-
-  if(isNaN(id)){
-    return res.err("Please use a number for stationId");
-  }
-
-  id = parseInt(id);
-  data.getLastYear(id, function(err,data){
-    if(err){
-      return res.json(err);
-    }
-    res.json(data);
-  })
-})
-
-router.get('/pollution', function (req, res, next) {
-  data.getPollution(function(err,pollution){
-    if(err){
-      return res.json(err);
-    }
-    res.json(pollution);
-  })
-});
 
 router.get('/collections', function (req, res, next) {
   data.getCollections(function(err,collections){

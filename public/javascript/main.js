@@ -62,11 +62,11 @@ function getStations(){
 
       if(document.location.pathname === "/map"){
         // plot coords of station
-        var coords = {lng: stations[i].location.coordinates[0], lat: stations[i].location.coordinates[1]};
+        var coords = {lng: stations[i].longitude, lat: stations[i].latitude};
         var marker = new google.maps.Marker({
           position: coords,
           map: map,
-          stationId: stations[i]._id,
+          stationId: stations[i].station_id,
           label: stations[i].name
           // icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
         })
@@ -76,9 +76,9 @@ function getStations(){
         markers[i] = marker;
       } else if(document.location.pathname === "/charts"){
         
-        var sid = stations[i]._id;
+        var sid = stations[i].station_id;
         var active = (stations[i].active ? '' : 'not-active');
-        var htmlStr = "<div class='item "+active+"' onclick='viewCharts("+sid+")' data-id='"+sid+"'>stationid:"+sid+" - " + stations[i].name + "</div>";
+        var htmlStr = "<div class='item "+active+"' onclick=viewCharts('"+sid+"') data-id='"+sid+"'>stationid:"+sid+" - " + stations[i].name + "</div>";
         $('#stationList').append(htmlStr);
       }
       
@@ -111,14 +111,14 @@ function getLastWeek(stationId, cb){
 
 function getLastDay(stationId, cb){
   $.ajax({
-    url: '/admin/lastday/' + stationId
+    url: '/admin/pm10/' + stationId
   }).done(function(data){
     console.log('station last day',data);
-    var pm10 = data.pm10.lastDayByHour || []
+    var pm10 = data || []
     var chartArray = [];
     for(var i=0; i<pm10.length;i++){
       // build data array for infoWindow chart
-      chartArray[i] = [new Date(pm10[i].time), pm10[i].avg];
+      chartArray[i] = [new Date(pm10[i]._time), pm10[i]._value];
     }
     //TODO: use async
     setTimeout(function(){
@@ -160,29 +160,29 @@ function viewCharts(stationId){
   
   //fetchdata
   $.when(
-    $.get('/admin/lastday/'+stationId, function(data){
+    $.get('/admin/pm10/'+stationId, function(data){
       
       // Last Day
-      var lastday = data.pm10.lastDayByHour || []
+      var lastday = data || []
       var chartArray = [];
       for(var i=0; i<lastday.length;i++){
-        chartArray[i] = [new Date(lastday[i].time), lastday[i].avg];
+        chartArray[i] = [new Date(lastday[i]._time), lastday[i]._value];
       }
       chartData.lastday = chartArray;
 
       // Last Month
-      var lastmonth = data.pm10.lastMonthByDay;
+      var lastmonth = data;
       var chartArray = [];
       for(var i=0; i<lastmonth.length;i++){
-        chartArray[i] = [new Date(lastmonth[i].time), lastmonth[i].avg];
+        chartArray[i] = [new Date(lastmonth[i]._time), lastmonth[i]._value];
       }
       chartData.lastmonth = chartArray;
 
       // Last Year
-      var lastyear = data.pm10.allMonths;
+      var lastyear = data;
       var chartArray = [];
       for(var i=0; i<lastyear.length;i++){
-        chartArray[i] = [new Date(lastyear[i].time), lastyear[i].avg];
+        chartArray[i] = [new Date(lastyear[i]._time), lastyear[i]._value];
       }
       chartData.lastyear = chartArray;
 
